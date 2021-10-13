@@ -1,0 +1,36 @@
+.calendar-ctr{
+  display: inline-block;
+  width: max-content;
+
+  .header{
+    background: #555;
+    color: #fff;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+
+  .c-row{
+    display: flex;
+  }
+
+  .c-area{
+    display: inline-grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .block{
+    height: 22px;
+    width: 22px;
+    padding: 4px 6px;
+    cursor: pointer;
+
+  }
+
+  .active {
+    color: red;
+  }
+}
