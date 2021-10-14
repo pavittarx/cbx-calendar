@@ -1,65 +1,81 @@
 import { useState, useEffect, useRef } from "react";
 import { DateTime } from "luxon";
 
+import { getPreviousDays, getNextDays } from "../_utils/daysList";
+
 import "./strip.scss";
 
-const DateBlock = ({ date, setDate }) => {
-  return <div className="date-block">{date.day}</div>;
+const DateBlock = ({ date, ref, setDate }) => {
+  return <div ref={ref} className="date-block">{date.day}</div>;
 };
 
 const StripContainer = ({ initialDate, setInitialDate }) => {
   const [daysList, setDaysList] = useState([]);
-  const ref = useRef();
+  const containerRef = useRef();
+  const targetRef = useRef();
 
-  const limit = 15;
+  const limit = window.innerHeight / 40;
 
-  const getPreviousDays = (date, limit) => {
-    const days = [];
-
-    for (let i = limit; i > 0; i--) {
-      days.push(date.minus({ days: i }));
-    }
-
-    return days;
-  };
-
-  const getNextDays = (date, limit) => {
-    if (!date) return [];
-
-    const days = [];
-
-    for (let i = 0; i < limit; i++) {
-      days.push(date.plus({ days: i }));
-    }
-
-    return days;
-  };
+  let startDay;
+  let endDay;
+  let dragCount = 0;
 
   useEffect(() => {
     const date = DateTime.fromFormat(initialDate, "yyyy-MM-d");
 
-    setDaysList([...getPreviousDays(date, limit), ...getNextDays(date, limit)]);
+    // setDaysList([...getPreviousDays(date, limit), ...getNextDays(date, limit)]);
+
+    setDaysList([...getNextDays(date, limit)]);
+
   }, [initialDate]);
 
+  
+
   useEffect(() => {
-    if (!ref?.current) return;
 
-    ref.current.addEventListener("scroll", (e) => {
-      const { scrollHeight, scrollTop, offsetHeight } = e.target;
+    if (!containerRef.current && !targetRef.current && !daysList.length)
+      return;
 
-      const end = scrollHeight - (scrollTop + offsetHeight) === 0;
+    containerRef.current.scroll(0, 20);
 
-      const length = daysList?.length;
+    containerRef.current.addEventListener("wheel", (e) => {
+      const senstivity = 10;
 
-      console.log(daysList[length - 1], daysList instanceof Array);
+      if (!daysList || !daysList.length) return;
 
-      if (end)
-        setDaysList([...daysList., ...getNextDays(daysList[length - 1], 15)]);
-    });
-  }, [ref, daysList]);
+      if (Math.abs(e.deltaY) < senstivity)
+        return;
+
+
+      const direction = e.deltaY > 0 ? "down" : "up";
+
+      const firstDay = daysList[0];
+      const lastDay = [...daysList].pop();
+
+      if (direction === "up") {
+        const days = getPreviousDays(firstDay, limit);
+
+        startDay = days[0];
+        endDay = [...days].pop();
+
+        setDaysList(days);
+      }
+      if (direction === "down") {
+
+        const days = getNextDays(lastDay, limit);
+
+        startDay = days[0];
+        endDay = [...days].pop();
+
+        setDaysList(days);
+      }
+
+    })
+
+  }, [containerRef.current, targetRef.current, daysList])
 
   return (
-    <div ref={ref} className="calendar-strip-ctr">
+    <div ref={containerRef} className="calendar-strip-ctr">
       {daysList &&
         daysList?.map((day, index) => (
           <DateBlock key={"d" + index} date={day} />

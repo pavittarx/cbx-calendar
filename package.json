@@ -5,26 +5,34 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "luxon": "2.0.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "luxon": "^2.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-scripts": "4.0.0",
-    "sass": "1.42.1"
-  },
-  "devDependencies": {
-    "@babel/runtime": "7.13.8",
-    "typescript": "4.1.3"
+    "sass": "^1.42.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0",
+    "parcel": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pavittarx/cbx-calendar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pavittarx/cbx-calendar/issues"
+  },
+  "homepage": "https://github.com/pavittarx/cbx-calendar#readme"
 }

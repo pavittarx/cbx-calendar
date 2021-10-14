@@ -1,6 +1,22 @@
-.calendar-strip-ctr{
-  height: 100%;
-  max-height: 90vh;
+.calendar-strip-ctr {
+  max-height: 80vh;
   overflow-y: scroll;
   width: max-content;
+}
+
+.calendar-strip-ctr {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .date-block{
+    text-align: right;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
+  }
+
+  .invisible-block {
+    height: 20px;
+  }
 }
