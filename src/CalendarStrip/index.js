@@ -3,6 +3,10 @@ import { DateTime } from "luxon";
 
 import { getPreviousDays, getNextDays } from "../_utils/daysList";
 
+import useDelayedEventListener from "../_utils/useDelayedEventListener";
+
+import _ from "underscore";
+
 import "./strip.scss";
 
 const DateBlock = ({ date, ref, setDate }) => {
@@ -12,13 +16,8 @@ const DateBlock = ({ date, ref, setDate }) => {
 const StripContainer = ({ initialDate, setInitialDate }) => {
   const [daysList, setDaysList] = useState([]);
   const containerRef = useRef();
-  const targetRef = useRef();
 
   const limit = window.innerHeight / 40;
-
-  let startDay;
-  let endDay;
-  let dragCount = 0;
 
   useEffect(() => {
     const date = DateTime.fromFormat(initialDate, "yyyy-MM-d");
@@ -29,23 +28,17 @@ const StripContainer = ({ initialDate, setInitialDate }) => {
 
   }, [initialDate]);
 
-  
+
 
   useEffect(() => {
 
-    if (!containerRef.current && !targetRef.current && !daysList.length)
+    if (!containerRef.current && !daysList.length)
       return;
 
     containerRef.current.scroll(0, 20);
 
-    containerRef.current.addEventListener("wheel", (e) => {
-      const senstivity = 10;
-
+    containerRef.current.addEventListener("wheel", _.throttle((e) => {
       if (!daysList || !daysList.length) return;
-
-      if (Math.abs(e.deltaY) < senstivity)
-        return;
-
 
       const direction = e.deltaY > 0 ? "down" : "up";
 
@@ -60,6 +53,7 @@ const StripContainer = ({ initialDate, setInitialDate }) => {
 
         setDaysList(days);
       }
+
       if (direction === "down") {
 
         const days = getNextDays(lastDay, limit);
@@ -69,10 +63,9 @@ const StripContainer = ({ initialDate, setInitialDate }) => {
 
         setDaysList(days);
       }
+    }, 1500))
 
-    })
-
-  }, [containerRef.current, targetRef.current, daysList])
+  }, [containerRef.current, daysList])
 
   return (
     <div ref={containerRef} className="calendar-strip-ctr">

@@ -21,8 +21,8 @@ export const getNextDays = (date, limit) => {
 };
 
 
-export const getPreviousDays = (date, { limit, count }) => {
-  const range = [(limit * count) - limit, limit * count];
+// export const getPreviousDays = (date, { limit, count }) => {
+//   const range = [(limit * count) - limit, limit * count];
 
-  console.log(range);
-}
+//   console.log(range);
+// }
