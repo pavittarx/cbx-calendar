@@ -2,6 +2,9 @@
   max-height: 80vh;
   overflow-y: scroll;
   width: max-content;
+
+  cursor: pointer;
+  user-select: none;
 }
 
 .calendar-strip-ctr {

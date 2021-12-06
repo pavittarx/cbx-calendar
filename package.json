@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "framer-motion": "^4.1.17",
     "lethargy": "^1.0.9",
     "luxon": "^2.0.2",
     "react": "^17.0.2",

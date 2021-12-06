@@ -13,7 +13,7 @@ export const getNextDays = (date, limit) => {
 
   const days = [];
 
-  for (let i = 0; i < limit; i++) {
+  for (let i = 1; i < limit; i++) {
     days.push(date.plus({ days: i }));
   }
 
